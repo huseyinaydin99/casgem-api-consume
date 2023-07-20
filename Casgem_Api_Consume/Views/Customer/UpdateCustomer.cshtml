@@ -1,0 +1,17 @@
+﻿@model Casgem_Api_Consume.DTOs.CustomerDTOs.UpdateCustomerDto;
+@{
+    ViewData["Title"] = "UpdateCategory";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>Müşteri Güncelleme Sayfası</h1>
+
+<form method="post">
+    <input type="hidden" asp-for="CustomerId" />
+    <label>Müşteri Adı: </label>
+    <input type="text" class="form-control border" asp-for="Name" />
+    <br />
+    <label>Şehir: </label>
+    <input type="text" class="form-control border" asp-for="City" />
+    <button class="btn btn-primary">Kaydet</button>
+</form>

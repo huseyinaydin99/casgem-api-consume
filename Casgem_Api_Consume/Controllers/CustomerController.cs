@@ -1,17 +1,15 @@
-﻿using Casgem_Api_Consume.DTOs.CategoryDTOs;
-using Casgem_Api_Consume.DTOs.CustomerDTOs;
+﻿using Casgem_Api_Consume.DTOs.CustomerDTOs;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using System.Net.Http;
 using System.Text;
 
 namespace Casgem_Api_Consume.Controllers
 {
-    public class CategoryController : Controller
+    public class CustomerController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
 
-        public CategoryController(IHttpClientFactory httpClientFactory)
+        public CustomerController(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
         }
@@ -19,41 +17,29 @@ namespace Casgem_Api_Consume.Controllers
         public async Task<IActionResult> Index()
         {
             var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("https://localhost:44314/api/Category/");
+            var responseMessage = await client.GetAsync("https://localhost:44314/api/Customer/");
             if (responseMessage.IsSuccessStatusCode)
             {
                 var jsonData = await responseMessage.Content.ReadAsStringAsync();
-                var values = JsonConvert.DeserializeObject<List<ResultCategoryDto>>(jsonData);
+                var values = JsonConvert.DeserializeObject<List<ResultCustomerDto>>(jsonData);
                 return View(values);
             }
             return View();
         }
 
         [HttpGet]
-        public async Task<IActionResult> AddCategory()
+        public async Task<IActionResult> AddCustomer()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddCategory(CreateCustomerDto createCategoryDto)
+        public async Task<IActionResult> AddCustomer(CreateCustomerDto createCustomerDto)
         {
             var client = _httpClientFactory.CreateClient();
-            var jsonData = JsonConvert.SerializeObject(createCategoryDto);
+            var jsonData = JsonConvert.SerializeObject(createCustomerDto);
             StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
-            var responseMessage = await client.PostAsync("https://localhost:44314/api/Category/", stringContent);
-            if(responseMessage.IsSuccessStatusCode)
-            {
-                return RedirectToAction("Index");
-            }
-            return View();
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> DeleteCategory(int id)
-        {
-            var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.DeleteAsync($"https://localhost:44314/api/Category/{id}");
+            var responseMessage = await client.PostAsync("https://localhost:44314/api/Customer/", stringContent);
             if (responseMessage.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");
@@ -61,11 +47,24 @@ namespace Casgem_Api_Consume.Controllers
             return View();
         }
 
+
         [HttpGet]
-        public async Task<IActionResult> UpdateCategory(int id)
+        public async Task<IActionResult> DeleteCustomer(int id)
         {
             var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync($"https://localhost:44314/api/Category/{id}");
+            var responseMessage = await client.DeleteAsync($"https://localhost:44314/api/Customer/{id}");
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> UpdateCustomer(int id)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var responseMessage = await client.GetAsync($"https://localhost:44314/api/Customer/{id}");
 
             if (responseMessage.IsSuccessStatusCode)
             {
@@ -78,12 +77,12 @@ namespace Casgem_Api_Consume.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateCategory(UpdateCustomerDto updateCategoryDto)
+        public async Task<IActionResult> UpdateCustomer(UpdateCustomerDto updateCategoryDto)
         {
             var client = _httpClientFactory.CreateClient();
             var jsonData = JsonConvert.SerializeObject(updateCategoryDto);
             StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
-            var responseMessage = await client.PutAsync($"https://localhost:44314/api/Category/", stringContent);
+            var responseMessage = await client.PutAsync($"https://localhost:44314/api/Customer/", stringContent);
             if (responseMessage.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");
