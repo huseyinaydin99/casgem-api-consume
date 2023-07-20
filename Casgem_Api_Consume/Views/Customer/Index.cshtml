@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>Müşteriler</h1>
 
 @foreach (var item in Model)
 {
@@ -19,4 +19,4 @@
     <span><a href="/Customer/UpdateCustomer/@item.CustomerId" class="btn btn-outline-success">Güncelle</a></span>
     <br />
 }
-<span><a href="/Customer/AddCustomer" class="btn btn-outline-success">Yeni Kategori Ekle</a></span>
+<span><a href="/Customer/AddCustomer" class="btn btn-outline-success">Yeni Müşteri Ekle</a></span>
